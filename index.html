@@ -777,6 +777,42 @@ body.light [style*="color: rgb(144, 202, 249)"]{color:#1565c0!important;}
 body.light [style*="color: rgb(130, 177, 255)"]{color:#1565c0!important;}
 body.light [style*="color: rgb(255, 183, 77)"]{color:#9a4f00!important;}
 body.light [style*="color: rgb(197, 225, 165)"]{color:#3f7d1f!important;}
+
+/* ===== 纯黑主题（第三档：白底 → 暗底 → 黑底 循环切换） ===== */
+body.black{
+  --bg:#000000; --panel:#080808; --panel2:#101010; --border:#2a2a2a;
+  --text:#d2d2d8; --dim:#8b8b96; --gold:#ffb300;
+  background:#000000; color:var(--text);
+}
+body.black header{border-bottom-color:#2a1012;}
+body.black h1{text-shadow:0 0 14px rgba(229,57,53,.5);}
+body.black button{background:#0d0d0d; color:#c9c9d4; border-color:#2a2a2a;}
+body.black button:hover{border-color:#e53935; color:#fff;}
+body.black button.primary{background:#2a0808; border-color:#5a1010; color:#ff8a80;}
+body.black button.primary:hover{background:#3a0d12;}
+body.black .panel,body.black .fighter{background:#080808; border-color:#242424;}
+body.black .panel h3{color:#ff8a80; border-bottom-color:#2a2a2a;}
+body.black .hpbar,body.black #mudHpBar,body.black #pzHpBar{background:#1a0d0d; border-color:#2a1a1a;}
+body.black .hpstats .chip,body.black .mtrait .tag,body.black .mtags .tag{background:#0a0a0a; border-color:#282828;}
+body.black .hpbar .fill,body.black #mudHpFill,body.black #pzHpFill{background:linear-gradient(90deg,#b71c1c,#e53935);}
+body.black .hpbar.player .fill{background:linear-gradient(90deg,#1b5e20,#43a047);}
+body.black .progress{background:#141414;}
+body.black .badge{background:#111111; border-color:#2a2a2a;}
+body.black #logPanel,body.black #mudLog,body.black #pzLog{background:#030303; border-color:#242424;}
+body.black .slot,body.black .inv-item,body.black .bench,body.black .codex-card,body.black .recipe-card{background:#0d0d0d; border-color:#242424;}
+body.black .inv-item:hover{background:#161616;}
+body.black #mudOverlay,body.black #pzOverlay,body.black #cityOverlay,body.black #shopOverlay,
+body.black #houseOverlay,body.black #codexOverlay,body.black .modal-overlay{background:rgba(0,0,0,.94);}
+body.black #mudPanel,body.black #pzPanel,body.black #cityPanel,body.black #shopPanel,
+body.black #housePanel,body.black #codexPanel,body.black .modal-panel{background:#060606; border-color:#2a2a2a; box-shadow:0 0 36px #000;}
+body.black .mapwrap[data-view]{background:#030303; border-color:#2a2a2a;}
+body.black .mud-cell,body.black .city-cell{background:#0a0a0a; border-color:#1c1c1c;}
+body.black .shop-row{background:#0c1418; border-color:#1a3440;}
+body.black .socket-slot{background:#080808;}
+body.black .codex-filters button{background:#0d0d0d; color:var(--dim); border-color:#2a2a2a;}
+body.black .soul-card.lv1{background:#101010;}
+body.black #tutCard{background:#080808; border-color:#ffb300; box-shadow:0 12px 36px rgba(0,0,0,.9);}
+body.black ::-webkit-scrollbar-thumb{background:#2a2a2a;}
 </style>
 </head>
 <body>
@@ -13336,17 +13372,27 @@ document.addEventListener("change", ev=>{
   }
 }, true);
 
-/* ===== 背景切换：白底 / 暗底（选择保存在本地，不占用游戏存档） ===== */
+/* ===== 背景切换：白底 / 暗底 / 黑底（三档循环，选择保存在本地，不占用游戏存档） ===== */
 const THEME_KEY = "horror_idle_theme_v1";
+const THEME_ORDER = ["light", "dark", "black"];
+const THEME_LABEL = {light:"☀ 白底", dark:"🌙 暗底", black:"⬛ 黑底"};
 function applyTheme(theme){
-  const light = theme === "light";
-  document.body.classList.toggle("light", light);
+  if(THEME_ORDER.indexOf(theme) < 0) theme = "dark";
+  document.body.classList.toggle("light", theme === "light");
+  document.body.classList.toggle("black", theme === "black");
   const b = document.getElementById("btnTheme");
-  if(b) b.textContent = light ? "🌙 暗底" : "☀ 白底";
-  try{ localStorage.setItem(THEME_KEY, light ? "light" : "dark"); }catch(e){}
+  const next = THEME_ORDER[(THEME_ORDER.indexOf(theme) + 1) % THEME_ORDER.length];
+  if(b) b.textContent = THEME_LABEL[next];
+  try{ localStorage.setItem(THEME_KEY, theme); }catch(e){}
+}
+function currentTheme(){
+  if(document.body.classList.contains("light")) return "light";
+  if(document.body.classList.contains("black")) return "black";
+  return "dark";
 }
 function toggleTheme(){
-  applyTheme(document.body.classList.contains("light") ? "dark" : "light");
+  const cur = currentTheme();
+  applyTheme(THEME_ORDER[(THEME_ORDER.indexOf(cur) + 1) % THEME_ORDER.length]);
 }
 (function(){
   let t = "dark";
