@@ -473,6 +473,42 @@ body.mapzoom .maphint{display:inline;}
   .progress{height:8px;}
   .progress .fill{border-radius:4px;}
 }
+/* ===== 新手引导（v20）=====
+   非阻断式步骤卡：只高亮目标元素，不锁死页面；随时可从顶部按钮重开 */
+#tutLayer{position:fixed;inset:0;z-index:300;pointer-events:none;display:none;}
+#tutLayer.on{display:block;}
+.tut-focus{
+  position:relative; z-index:301;
+  outline:2px solid #ffb300!important; outline-offset:3px;
+  box-shadow:0 0 22px 4px rgba(255,179,0,.55)!important;
+  border-radius:6px; animation:tutPulse 1.5s ease-in-out infinite;
+}
+@keyframes tutPulse{0%,100%{outline-color:#ffb300;}50%{outline-color:#ffcc80;}}
+#tutCard{
+  position:absolute; right:14px; bottom:14px;
+  width:min(430px, calc(100vw - 28px));
+  background:linear-gradient(180deg,#211d13,#14141a);
+  border:1px solid #ffb300; border-radius:10px; padding:12px 14px;
+  pointer-events:auto; font-size:12.5px; line-height:1.7;
+  box-shadow:0 12px 40px rgba(0,0,0,.85), 0 0 20px rgba(255,179,0,.12);
+}
+.tut-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.tut-no{font-size:11px;color:#14141a;background:#ffb300;border-radius:9px;padding:1px 8px;font-weight:bold;white-space:nowrap;}
+.tut-title{font-size:14px;color:#ffd54f;font-weight:bold;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tut-skip{font-size:11px;padding:2px 7px;color:#b3a37e;border-color:#5c4a1a;flex:0 0 auto;}
+.tut-body{color:#d7d7e0;min-height:66px;word-break:break-word;}
+.tut-body b{color:#ffcc80;}
+.tut-dots{display:flex;gap:4px;margin:8px 0 6px;}
+.tut-dot{width:14px;height:4px;border-radius:2px;background:#3a3a46;}
+.tut-dot.on{background:#ffb300;}
+.tut-dot.done{background:#7a5c1a;}
+.tut-actions{display:flex;gap:8px;}
+.tut-actions button{flex:1;}
+@media(max-width:768px){
+  #tutCard{left:10px;right:10px;bottom:10px;width:auto;padding:10px 12px;}
+  .tut-title{font-size:13px;}
+  .tut-body{min-height:0;max-height:34vh;overflow-y:auto;}
+}
 </style>
 </head>
 <body>
@@ -481,6 +517,7 @@ body.mapzoom .maphint{display:inline;}
     <h1>无 限 恐 怖<small>轮回试炼场 · Idle of Terror · <b id="gameVer">v19</b></small></h1>
     <div style="font-size:12px;color:#8d7a80;margin-top:2px;">💬 欢迎加入 Q群 <b style="color:#4fc3f7;">684223841</b> 一起讨论攻略、交流配装与反馈问题</div>
     <div class="hbtns">
+      <button onclick="tutOpen(true)" style="border-color:#ffb300;color:#ffd54f;">❓ 新手引导</button>
       <button id="btnSpeed" class="primary" onclick="toggleSpeed()">⏩ 速度 x1</button>
       <button onclick="mudToggle()" style="border-color:#5c4a1a;color:#ffd54f;">⛏ MUD挖宝</button>
       <button onclick="pzToggle()" style="border-color:#5c1a2a;color:#ff8a80;">🎬 MUD解谜</button>
@@ -780,6 +817,23 @@ body.mapzoom .maphint{display:inline;}
     <div id="shopList"></div>
     <div style="display:flex;gap:8px;">
       <button onclick="shopToggle()" style="flex:1;">✖ 离开商店</button>
+    </div>
+  </div>
+</div>
+
+<!-- 新手引导：非阻断式步骤卡（低层级覆盖层，游戏照常可操作） -->
+<div id="tutLayer">
+  <div id="tutCard">
+    <div class="tut-top">
+      <span class="tut-no" id="tutNo">步骤 1/10</span>
+      <span class="tut-title" id="tutTitle">新手引导</span>
+      <button class="tut-skip" onclick="tutSkip()">跳过引导</button>
+    </div>
+    <div class="tut-body" id="tutBody"></div>
+    <div class="tut-dots" id="tutDots"></div>
+    <div class="tut-actions">
+      <button id="tutPrev" onclick="tutStep(-1)">← 上一步</button>
+      <button id="tutNext" class="primary" onclick="tutStep(1)">下一步 →</button>
     </div>
   </div>
 </div>
@@ -2402,6 +2456,8 @@ let S = defaultState();
 function defaultState(){
   return {
     gold: 0, cleared: 0, curLevel: 1, kills: 0,
+    tutorialDone: false,      // 新手引导是否完成（跳过也算完成，不再自动弹出）
+    tutorialStep: 0,          // 新手引导当前步骤（随存档续播）
     lastSeen: 0,              // 上次活跃时间戳（ms）：离线收益以此为起点，随每次存档刷新
     rebirthPoints: 0, rebirths: 0,
     rb: {hp:0, atk:0, def:0, block:0, critRate:0, critDmg:0, combo:0, stun:0, leech:0, thorns:0, rarDrop:0, goldMul:0},
@@ -4752,6 +4808,11 @@ function loadGame(){
     const raw = localStorage.getItem(SAVE_KEY);
     if(!raw) return false;
     const data = JSON.parse(raw);
+    // 新手引导：老存档无该字段时视为已看过，不打断老玩家（顶部按钮仍可随时重开）
+    if(data && typeof data === "object" && data.tutorialDone === undefined){
+      data.tutorialDone = true;
+      log("💡 新手引导已更新：可从顶部【❓ 新手引导】随时查看。","l-gold");
+    }
     // 离线收益起点：旧存档无该字段则记为 0（首次升级不补发，避免历史时间戳误判为超长离线）
     __offlineSince = Number.isFinite(+data.lastSeen) ? +data.lastSeen : 0;
     S = Object.assign(defaultState(), data);
@@ -12891,6 +12952,121 @@ document.addEventListener("keydown", ev=>{
   else if(k === "l"){ ev.preventDefault(); pzToggle(); }                 // L：离开剧本
 });
 
+/* ================= 新手引导（v20） =================
+   非阻断式步骤卡 + 目标高亮：真实点击目标后自动推进，也可手动上一步/下一步/跳过；
+   步骤与完成状态随存档持久化，顶部【❓ 新手引导】可随时重开。 */
+const TUT_STEPS = [
+  {
+    title: "欢迎来到轮回试炼场",
+    body: "这是一款<b>挂机刷宝</b>游戏：进入试炼 → 自动战斗 → 拾取装备 → 强化属性 → 挑战更高层，通关第 50 层后可转生。<br>接下来 9 步带你走完核心循环，顶部【❓ 新手引导】可随时重看。"
+  },
+  {
+    title: "① 选择世界侧",
+    body: "在试炼场右上角的<b>侧向下拉框</b>选择魔法 / 科技 / 修真 / 改造等流派：侧向决定装备词条倾向、怪物与专属地形，切换后会弹出该侧的效果说明。",
+    target: "#flavorSel", change: "#flavorSel"
+  },
+  {
+    title: "② 进入试炼（自动战斗）",
+    body: "点击<b>【进入试炼】</b>开始挂机战斗。角色会自动攻击与释放技能，每击杀 10 只怪物出现首领；击败首领后层数 +1，掉落装备的等级也随之提高。",
+    target: "#btnBattle", click: "#btnBattle"
+  },
+  {
+    title: "③ 加速与战斗信息",
+    body: "点击<b>【速度 x1】</b>可切换 x2 加速，战斗照常自动进行。两侧战斗框展示生命 / 攻击 / 暴击 / 护盾等属性，右下角<b>战斗日志</b>记录掉落、元素触发与首领提示。",
+    target: "#btnSpeed", click: "#btnSpeed"
+  },
+  {
+    title: "④ 装备与背包",
+    body: "点击背包中的<b>装备</b>查看详情：可装备、强化（最高 +12）、重铸词条。四个装备槽分别是武器 / 防具 / 血脉 / 职阶，套装集齐后还有额外效果。背包顶部可切换自动出售与自动分解。",
+    target: "#inv", click: ".inv-item"
+  },
+  {
+    title: "⑤ 副本档位与层数",
+    body: "在<b>副本选择</b>里切换难度档与具体层数：层数越高，掉落装备等级越高。通关第 50 层后解锁转生，转生点可换取永久百分比强化。",
+    target: "#tierTabs", click: "#tierTabs button,#lvGrid button"
+  },
+  {
+    title: "⑥ 商店与私宅",
+    body: "顶部<b>【黑市商店】</b>用金币购买 5 件随机装备，免费刷新每 5 分钟恢复 1 次；<b>【住房】</b>里有分解台 / 制作台 / 加工台，可回收材料、打造套装、合成魂卡。",
+    target: 'button[onclick="shopToggle()"]', click: 'button[onclick="shopToggle()"],button[onclick="houseToggle()"]'
+  },
+  {
+    title: "⑦ 三个 MUD 支线",
+    body: "顶部还可进入三个独立玩法：<b>⛏ 挖宝</b>（WASD 移动、J 攻击、K 逃跑）、<b>🎬 解谜</b>（WASD 探索、J 攻击、L 离开）、<b>🏘 城市</b>（跑环、黑商、赌场与期货）。MUD 界面内按 Q/E 快速切换。",
+    target: 'button[onclick="mudToggle()"]', click: 'button[onclick="mudToggle()"],button[onclick="pzToggle()"],button[onclick="cityToggle()"]'
+  },
+  {
+    title: "⑧ 存档管理",
+    body: "游戏每 15 秒自动保存，也可用顶部<b>【保存】</b>手动存档；<b>导出 / 导入</b>可在设备间迁移进度，<b>清档</b>需要两次确认。引导状态也会随存档保存。",
+    target: 'button[onclick="saveGame(1)"]', click: 'button[onclick="saveGame(1)"],button[onclick="exportSave()"],button[onclick="importSave()"]'
+  },
+  {
+    title: "引导完成",
+    body: "核心循环已经交到你手里了：<b>刷层 → 换装 → 堆词条 → 转生</b>，再去 MUD 里挖宝解谜。<br>点击【完成引导】收起此卡；以后任何时候都能从顶部【❓ 新手引导】重开本教程。"
+  }
+];
+let __tutFocusEl = null;
+function tutActive(){ const el = document.getElementById("tutLayer"); return !!(el && el.classList.contains("on")); }
+function tutStepSafe(){ const n = Number(S.tutorialStep); return Number.isFinite(n) ? Math.max(0, Math.min(TUT_STEPS.length-1, Math.floor(n))) : 0; }
+function tutOpen(replay){
+  if(replay){ S.tutorialStep = 0; S.tutorialDone = false; saveGame(); }
+  document.getElementById("tutLayer").classList.add("on");
+  tutRender();
+}
+function tutClose(){
+  document.getElementById("tutLayer").classList.remove("on");
+  if(__tutFocusEl){ __tutFocusEl.classList.remove("tut-focus"); __tutFocusEl = null; }
+}
+function tutSkip(){
+  S.tutorialDone = true; S.tutorialStep = TUT_STEPS.length;
+  saveGame(); tutClose();
+  log("新手引导已跳过。需要重看时点击顶部【❓ 新手引导】。", "l-gold");
+}
+function tutFinish(){ tutSkip(); log("新手引导完成，祝你好运，轮回者。", "l-green"); }
+function tutRender(){
+  const i = tutStepSafe(), st = TUT_STEPS[i];
+  document.getElementById("tutNo").textContent = "步骤 " + (i+1) + "/" + TUT_STEPS.length;
+  document.getElementById("tutTitle").textContent = st.title;
+  document.getElementById("tutBody").innerHTML = st.body;
+  document.getElementById("tutPrev").disabled = (i === 0);
+  document.getElementById("tutNext").textContent = (i === TUT_STEPS.length-1) ? "完成引导 ✓" : "下一步 →";
+  document.getElementById("tutDots").innerHTML = TUT_STEPS.map((_,k)=>'<span class="tut-dot '+(k===i?"on":(k<i?"done":""))+'"></span>').join("");
+  if(__tutFocusEl){ __tutFocusEl.classList.remove("tut-focus"); __tutFocusEl = null; }
+  if(st.target){
+    const el = document.querySelector(st.target);
+    if(el){
+      el.classList.add("tut-focus"); __tutFocusEl = el;
+      try{ el.scrollIntoView({block:"center", behavior:"smooth"}); }catch(e){}
+    }
+  }
+}
+function tutStep(delta){
+  if(!tutActive()) return;
+  const i = tutStepSafe(), next = i + delta;
+  if(next >= TUT_STEPS.length){ tutFinish(); return; }
+  S.tutorialStep = Math.max(0, next);
+  saveGame(); tutRender();
+}
+// 真实操作自动推进：点击/切换目标元素后稍作延迟再切步骤，避免高亮闪烁
+document.addEventListener("click", ev=>{
+  if(!tutActive()) return;
+  const st = TUT_STEPS[tutStepSafe()];
+  if(!st || !st.click || !ev.target || !ev.target.closest) return;
+  if(ev.target.closest(st.click)){
+    const at = tutStepSafe();
+    setTimeout(()=>{ if(tutActive() && tutStepSafe() === at) tutStep(1); }, 280);
+  }
+}, true);
+document.addEventListener("change", ev=>{
+  if(!tutActive()) return;
+  const st = TUT_STEPS[tutStepSafe()];
+  if(!st || !st.change || !ev.target || !ev.target.matches) return;
+  if(ev.target.matches(st.change)){
+    const at = tutStepSafe();
+    setTimeout(()=>{ if(tutActive() && tutStepSafe() === at) tutStep(1); }, 320);
+  }
+}, true);
+
 /* ================= 启动 ================= */
 function init(){
   const loaded = loadGame();
@@ -12919,6 +13095,8 @@ function init(){
   // 地形初始化：若当前为默认平原，则 roll 一次，让地形系统开场即生效
   if(!S.terrain || S.terrain === "plain") applyTerrain(false);
   renderAll();
+  // 新存档首次进入自动弹出引导（略微延迟，让开场日志先显示出来）
+  if(!loaded && !S.tutorialDone) setTimeout(()=>tutOpen(false), 800);
   mapViewLoad();           // v13 地图缩放视图（记忆上次选择）
   seasonBadgeUpdate();     // 赛季徽章立即显示，不等首个 tick
   restartLoop();
