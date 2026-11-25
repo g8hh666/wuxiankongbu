@@ -509,6 +509,274 @@ body.mapzoom .maphint{display:inline;}
   .tut-title{font-size:13px;}
   .tut-body{min-height:0;max-height:34vh;overflow-y:auto;}
 }
+
+/* ===== 亮色（白底）主题：顶部【☀ 白底】按钮切换，选择记入本地存档 ===== */
+body.light{
+  --bg:#ffffff; --panel:#f7f8fb; --panel2:#eceff4; --border:#c9d1dc;
+  --text:#212936; --dim:#5c6675; --red:#b71c1c; --red2:#c62828;
+  --gold:#8a5a00; --r0:#626b79; --r1:#2e7d32; --r2:#1565c0; --r3:#7b1fa2; --r4:#d95f00; --r5:#c62828;
+  background:#fff; color:var(--text);
+}
+body.light header{border-bottom-color:#d6dce5;}
+body.light h1{color:#b71c1c; text-shadow:none;}
+body.light h1 small{color:var(--dim);}
+body.light header > div:nth-child(2){color:#687280!important;}
+body.light button{background:#fff; color:#2b3545; border-color:#c3cbd7;}
+body.light button:hover{border-color:#c62828; color:#b71c1c;}
+body.light button:disabled{color:#9aa3ae;}
+body.light button.primary{background:#fdecec; border-color:#e0a5a5; color:#b71c1c;}
+body.light button.primary:hover{background:#fbdcdc;}
+body.light .hbtns button{background:#fff!important; color:#344052!important; border-color:#c8d0db!important;}
+body.light .hbtns button:hover{color:#b71c1c!important; border-color:#c62828!important;}
+body.light .panel{background:#f8f9fc; border-color:#d3dae3;}
+body.light .panel h3{color:#a43830; border-bottom-color:#dfe4eb;}
+body.light .stat-row .v{color:#1b2330;}
+body.light .stat-row .bonus{color:#2e7d32;}
+body.light .divider{border-top-color:#dfe4eb;}
+body.light .hint{color:var(--dim);}
+body.light .gold-big{color:#8a5a00;}
+/* 战斗区 */
+body.light .fighter{background:#eef2f7; border-color:#ccd4df;}
+body.light .fighter .fname{color:#1b2330;}
+body.light .hpbar{background:#f2dadd; border-color:#e2b9bd;}
+body.light .hpbar .fill{background:linear-gradient(90deg,#b71c1c,#e53935);}
+body.light .hpbar.player .fill{background:linear-gradient(90deg,#2e7d32,#4caf50);}
+body.light .hptext{color:#5c6675;}
+body.light .hpstats .chip{background:linear-gradient(180deg,#ffffff,#eef1f6); border-color:#d3dae3; color:#4b5564; box-shadow:inset 0 1px 0 #fff;}
+body.light .hpstats .chip b{color:#1b2330;}
+body.light .hpstats .chip.zero{opacity:.45;}
+body.light .hpstats .chip.hp{background:#fff2f0; border-color:#e5bab5; color:#a43830;}
+body.light .hpstats .chip.hp b{color:#b71c1c;}
+body.light .hpstats .chip.c-sh{background:#e9f5fc; border-color:#b4daf0; color:#1565c0;}
+body.light .hpstats .chip.c-sh b{color:#0d6aa8;}
+body.light .hpstats .chip.c-atk{color:#a43830;} body.light .hpstats .chip.c-atk b{color:#b71c1c;}
+body.light .hpstats .chip.c-def{color:#3a5f8f;} body.light .hpstats .chip.c-def b{color:#1565c0;}
+body.light .hpstats .chip.c-crit{color:#8a5a00;} body.light .hpstats .chip.c-crit b{color:#a66d00;}
+body.light .hpstats .chip.c-critd{color:#8a5a00;} body.light .hpstats .chip.c-critd b{color:#b27900;}
+body.light .hpstats .chip.c-st{color:#6a1b9a;} body.light .hpstats .chip.c-st b{color:#7b1fa2;}
+body.light .hpstats .chip.c-lc{color:#a3326a;} body.light .hpstats .chip.c-lc b{color:#b83a78;}
+body.light .hpstats .chip.c-th{color:#a35200;} body.light .hpstats .chip.c-th b{color:#c26100;}
+body.light .hpstats .chip.ele{color:#5c6675;} body.light .hpstats .chip.ele b{color:#2b3545;}
+body.light .mtrait .tname{color:#6a1b9a; border-color:#d8b9df; background:#f7eef9; box-shadow:none;}
+body.light .mtrait .tdesc{color:#5c6675;}
+body.light .mtrait .tele{background:#f1f4f8; color:#3b4554; border-color:#d3dae3;}
+body.light .mtrait .ele-grid .tag{background:#f1f4f8; color:#3b4554; border-color:#d3dae3; box-shadow:none;}
+body.light .mtrait .ele-grid .tag b{color:inherit;}
+body.light .mtags .tag{background:#f1f4f8; color:#3b4554; border-color:#d3dae3; box-shadow:none;}
+body.light .mtags .tag b{color:#1b2330;}
+body.light .mtags .tag.uniq{color:#8a5a00; border-color:#d9b465; background:#fff8e6; box-shadow:none;}
+body.light .mtags .tag.boss{color:#b71c1c; border-color:#e2a9a9; background:#fff0ef;}
+body.light .mtags .tag.terrain{color:#b94a1e; border-color:#e3b69f; background:#fff3ec; box-shadow:none;}
+body.light .mtags .tag.trait{color:#6a1b9a; border-color:#d8b9df; background:#f7eef9;}
+body.light .mtags .tag.dot{color:#2e7d32; border-color:#b6d6b6; background:#eef8ee; box-shadow:none;}
+body.light .mtags .tag.debuff{color:#b71c1c; border-color:#e2a9a9; background:#fff0ef;}
+body.light .mtags .tag.shield{color:#1565c0; border-color:#b4daf0; background:#e9f5fc;}
+body.light .vs .blood{color:#c62828; text-shadow:none;}
+body.light .battle-info .badge{background:#f1f4f8; border-color:#d3dae3; color:#a43830;}
+body.light .progress{background:#e4e8ee;}
+body.light .tier-tabs button.on, body.light .flavor-tabs button.on, body.light .house-tabs button.on{background:#fff0ef; border-color:#d98f8f; color:#b71c1c;}
+body.light .lv-grid button.current{border-color:#d9b465; color:#8a5a00;}
+body.light .lv-grid button.locked{opacity:.35;}
+/* 日志 / 背包 / 详情 */
+body.light #logPanel{background:#fbfcfe; border-color:#d3dae3;}
+body.light #logPanel .t{color:#8b94a1;}
+body.light #logPanel .l-red{color:#b71c1c;} body.light #logPanel .l-gold{color:#8a5a00;}
+body.light #logPanel .l-green{color:#2e7d32;} body.light #logPanel .l-blue{color:#1565c0;}
+body.light #logPanel .l-purple{color:#6a1b9a;} body.light #logPanel .l-orange{color:#c26100;}
+body.light #logPanel .l-white{color:#2b3545;} body.light #logPanel .l-dim{color:#707a88;}
+body.light .slot{background:#f2f5f9; border-color:#c8d0db;}
+body.light .slot:hover{border-color:#c62828;}
+body.light .slot .sname, body.light .slot .iinfo{color:#5c6675;}
+body.light .inv-filter button.on{color:#8a5a00; border-color:#d9b465; background:#fff8e6;}
+body.light .chip-cap{color:#5c6675;}
+body.light .inv-filter button.decomp.on{color:#9a6200; border-color:#e0bf74; background:#fffaf0;}
+body.light .inv-mode button{background:#f2f5f9; color:#3b4554; border-color:#c8d0db;}
+body.light .inv-mode button.on{color:#8a5a00; border-color:#d9b465; background:#fff8e6;}
+body.light .mode-cnt{background:#dde3eb; color:#5c6675;}
+body.light .inv-mode button.on .mode-cnt{background:#8a5a00; color:#fff;}
+body.light .inv-item{background:#f4f6fa; border-color:#ccd4df;}
+body.light .inv-item:hover{background:#e9eef5;}
+body.light .inv-item .sub{color:#5c6675;}
+body.light #detail .aff{color:#2e7d32;}
+body.light .set-list .sn{color:#8a5a00;}
+body.light .set-list .on{color:#2e7d32;} body.light .set-list .off{color:#9aa3ae;}
+body.light ::-webkit-scrollbar-thumb{background:#c3ccd8;}
+/* 弹层 */
+body.light #mudOverlay,body.light #pzOverlay,body.light #cityOverlay,
+body.light #shopOverlay,body.light #houseOverlay,body.light #codexOverlay,
+body.light .modal-overlay{background:rgba(24,29,38,.55);}
+body.light #mudPanel,body.light #pzPanel,body.light #cityPanel,body.light #shopPanel,
+body.light #housePanel,body.light #codexPanel,body.light .modal-panel{
+  background:#fafbfd; border-color:#c9d1dc; box-shadow:0 12px 40px rgba(22,28,38,.22);
+}
+body.light #mudPanel h3{color:#8a5a00; border-bottom-color:#e9dcb9;}
+body.light #pzPanel h3{color:#b71c1c; border-bottom-color:#e9c4c4;}
+body.light #cityPanel h3{color:#2e7d32; border-bottom-color:#c3dcc6;}
+body.light #shopPanel h3{color:#1565c0; border-bottom-color:#bfd9ea;}
+body.light #housePanel h3{color:#8a5a00; border-bottom-color:#e9dcb9;}
+body.light #codexPanel h3{color:#1565c0; border-bottom-color:#c3d9ea;}
+body.light .mud-badge{background:#fff7e6; border-color:#d9b465; color:#8a5a00;}
+body.light .mapwrap[data-view]{background:#f2f5f9; border-color:#c8d0db;}
+body.light .mapviewbar button.on{color:#8a5a00; border-color:#d9b465; background:#fff7e6;}
+body.light .mapviewbar .lb,body.light .maphint{color:#5c6675;}
+body.light .mud-cell,body.light .city-cell{background:#f2f5f9; border-color:#dce2ea; color:#7b8593;}
+body.light .mud-cell.rock,body.light .city-cell.empty{background:#e9edf3;}
+body.light .mud-cell.floor{background:#f7f9fc; color:#687280;}
+body.light .mud-cell.treasure{background:#fff7e6; color:#8a5a00;}
+body.light .mud-cell.boss,body.light .mud-cell.blood{background:#fff0ef; color:#b71c1c; border-color:#e2a9a9;}
+body.light .mud-cell.player,body.light .city-cell.player{background:#ffe7e7; color:#b71c1c; border-color:#d98f8f;}
+body.light .mud-cell.adj,body.light .city-cell.adj{background:#eef1f6; color:#8b94a1;}
+body.light .mud-cell.lit{background:#f4f6fa; color:#98a1ae;}
+body.light .mud-cell.door,body.light .mud-cell.doorL,body.light .city-cell.decor{background:#eaf7ee; color:#2e7d32; border-color:#a9d2ae;}
+body.light .mud-cell.key{background:#fff7e6; color:#8a5a00; border-color:#d9b465;}
+body.light .mud-cell.npc{background:#eaf4fc; color:#1565c0; border-color:#a9cde6;}
+body.light .mud-cell.merchant,body.light .mud-cell.trade{background:#fff3e4; color:#a35700; border-color:#e5be8e;}
+body.light .mud-cell.mine{background:#fff8df; color:#8a6a00; border-color:#ded09a;}
+body.light .mud-cell.pit,body.light .mud-cell.trap{background:#ffede6; color:#b94a1e; border-color:#e3b69f;}
+body.light .mud-cell.search{background:#f2f8e2; color:#5a7a12; border-color:#c6d99c;}
+body.light .mud-cell.clue{background:#eaf4fc; color:#1565c0; border-color:#a9cde6;}
+body.light .mud-cell.trapHidden{background:#eef1f6; color:#8b94a1;}
+body.light .mud-cell.supply{background:#eaf7ee; color:#2e7d32; border-color:#a9d2ae;}
+body.light .mud-cell.exit{background:#e5f7f7; color:#00796b; border-color:#9bd8d5;}
+body.light .mud-cell.hidden,body.light .mud-cell.scheme{background:#f7ecfb; color:#7b1fa2; border-color:#d2a9e0;}
+body.light .mud-cell.roomIn{background:#f6f2fa; box-shadow:inset 0 0 0 1px rgba(123,31,162,.16);}
+body.light .mud-cell.boss2{background:#ffe2e2; color:#b71c1c; border-color:#d98f8f; font-weight:bold;}
+body.light .city-cell.npc{background:#eaf7ee; color:#2e7d32; border-color:#a9d2ae;}
+body.light .city-cell.npc:hover{background:#dcf0e0; color:#1b5e20;}
+body.light .city-cell.passer{background:#eaf4fc; color:#1565c0; border-color:#a9cde6;}
+body.light .city-cell.wall{background:#f2ece6; color:#8b6b52; border-color:#dcc6b3;}
+body.light .city-cell.fac{background:#f5eefb; color:#6a1b9a; border-color:#d2a9e0;}
+body.light .city-cell.fac:hover{background:#ecddf7; color:#5b147f;}
+body.light .city-cell.decor:hover{background:#dcf0e0; color:#1b5e20;}
+body.light #mudHpBar,body.light #pzHpBar{background:#f2dadd; border-color:#e2b9bd;}
+body.light #mudHpFill,body.light #pzHpFill{background:linear-gradient(90deg,#2e7d32,#4caf50);}
+body.light .mud-enemy{background:#f8f2f3; border-color:#e4cbd0;}
+body.light #mudLog,body.light #pzLog{background:#fbfcfe; border-color:#d3dae3; color:#2b3545;}
+body.light #mudLog .t,body.light #pzLog .t{color:#8b94a1;}
+body.light .pz-tab{background:#f4f6fa; border-color:#d3dae3; color:#4b5564;}
+body.light .pz-tab.on{color:#b71c1c; border-color:#d98f8f; background:#fff0ef;}
+body.light .mud-choice{border-color:#d9b465;}
+body.light .mud-choice:hover{color:#8a5a00;}
+body.light .shop-row{background:#eef6fb; border-color:#bcd9e8;}
+body.light .shop-row .ds{color:#5c6675;}
+body.light #shopFreeTxt,body.light .shop-aff{color:#2e7d32;}
+body.light .socket-slot{background:#f2f5f9; border-color:#c8b27a; color:#5c6675;}
+body.light .socket-slot.open{background:#fff7e6; border-color:#d9b465;}
+body.light .socket-slot.filled{background:#fff3d6; border-color:#b8860b; color:#8a5a00; box-shadow:none;}
+body.light .soul-card{box-shadow:none!important; text-shadow:none!important;}
+body.light .soul-card.lv1{color:#3b4554; background:#f2f4f7; border-color:#aab3bf;}
+body.light .soul-card.lv2{color:#1565c0; background:#eaf4fc; border-color:#a9cde6;}
+body.light .soul-card.lv3{color:#8a5a00; background:#fff7e6; border-color:#d9b465;}
+body.light .soul-card.lv4{color:#6a1b9a; background:#f6edfa; border-color:#ceabe0;}
+body.light .soul-card.lv5{color:#b71c1c; background:#fff0ef; border-color:#e2a9a9;}
+body.light .soul-card.lv6{color:#8a5a00; background:#fff3d6; border-color:#b8860b;}
+body.light .soul-card.lv7{color:#2e7d32; background:#eef8ee; border-color:#a9d2ae;}
+body.light .soul-card.lv8{color:#6a1b9a; background:#f3ebfa; border-color:#c9a7e0;}
+body.light .soul-card.lv9{color:#00796b; background:#e4f7f6; border-color:#8fd2cd;}
+body.light .codex-filters button{background:#f2f5f9; color:#5c6675; border-color:#c8d0db;}
+body.light .codex-filters button.on{color:#1565c0; border-color:#a9cde6; background:#eaf4fc;}
+body.light #codexList .codex-sec{color:#1565c0; border-left-color:#a9cde6;}
+body.light .codex-card{background:#f3f6fa; border-color:#d3dae3;}
+body.light .codex-card.got{background:#eef8ee; border-color:#b6d6b6;}
+body.light .codex-card .cn{color:#8a5a00;} body.light .codex-card .ck{color:#2e7d32;}
+body.light .codex-card .cno{color:#8b94a1;} body.light .codex-card .cb2{color:#1565c0;}
+body.light .codex-card .cb4{color:#b71c1c;} body.light .codex-card .csrc{color:#5c6675;}
+body.light .bench{background:#f3f6fa; border-color:#d3dae3;}
+body.light .bench h4{color:#8a5a00;}
+body.light .bench .upgrade-row{border-top-color:#dfe4eb;}
+body.light .recipe-card{background:#f8f9fc; border-color:#d3dae3;}
+body.light .recipe-card.can{background:#fff7e6; border-color:#d9b465;}
+body.light .heir-item{background:#f8f9fc; border-color:#e2d5ae; border-left-color:#b8860b;}
+body.light .heir-item:hover{background:#fff7e6; border-color:#d9b465;}
+body.light .heir-item.selected{background:#fff3d6; border-color:#b8860b;}
+body.light .heir-item .lock{color:#b71c1c;} body.light .heir-item .ready{color:#2e7d32;}
+body.light .quest-tag.lv1{background:#f2f4f7; color:#3b4554; border-color:#aab3bf;}
+body.light .quest-tag.lv2{background:#eaf4fc; color:#1565c0; border-color:#a9cde6;}
+body.light .quest-tag.lv3{background:#fff7e6; color:#8a5a00; border-color:#d9b465;}
+/* 新手引导卡 */
+body.light #tutCard{background:#fff; border-color:#d9b465; color:#2b3545; box-shadow:0 12px 36px rgba(22,28,38,.22);}
+body.light .tut-title{color:#8a5a00;}
+body.light .tut-body{color:#3b4554;} body.light .tut-body b{color:#8a5a00;}
+body.light .tut-skip{color:#5c6675; border-color:#c8d0db;}
+body.light .tut-dot{background:#dde3eb;} body.light .tut-dot.done{background:#b8860b;}
+/* 少量 JS 生成的深色内联样式在亮色下改为浅色底 / 深色字 */
+body.light [style*="background:#0d0d12"]{background:#fbfcfe!important;}
+body.light [style*="background:#1b3a1b"]{background:#eef8ee!important;}
+body.light [style*="background:#12151c"]{background:#e4e8ee!important;}
+body.light [style*="background:#0a1620"]{background:#eaf4fc!important;}
+body.light [style*="background:#1a1410"]{background:#fff7e6!important;}
+body.light [style*="background:#181820"]{background:#f2f4f7!important;}
+body.light [style*="color:#ffd54f"]{color:#8a5a00!important;}
+body.light [style*="color:#ffcc80"]{color:#8a5a00!important;}
+body.light [style*="color:#ffb74d"]{color:#a35700!important;}
+body.light [style*="color:#ff8a80"]{color:#b71c1c!important;}
+body.light [style*="color:#4fc3f7"]{color:#1565c0!important;}
+body.light [style*="color:#90caf9"]{color:#1565c0!important;}
+body.light [style*="color:#81c784"]{color:#2e7d32!important;}
+body.light [style*="color:#a5d6a7"]{color:#2e7d32!important;}
+body.light [style*="color:#78909c"]{color:#4b5564!important;}
+body.light [style*="color:#c9c9d4"]{color:#2b3545!important;}
+body.light [style*="color:#fff"]{color:#2b3545!important;}
+body.light [style*="color:#8d7a80"]{color:#687280!important;}
+/* ===== 亮色主题 · 对比度微调 ===== */
+/* 页面改柔和浅灰底、卡片纯白，减少纯白刺眼并拉开面板层次 */
+body.light{background:radial-gradient(ellipse at 50% -20%, #fafbfd 0%, #e9edf3 62%, #e5eaf1 100%); --dim:#4d5868;}
+body.light .panel,body.light .modal-panel,body.light #mudPanel,body.light #pzPanel,body.light #cityPanel,body.light #shopPanel,body.light #housePanel,body.light #codexPanel,body.light #tutCard{background:#ffffff;}
+body.light .fighter{background:#f7f9fc;}
+body.light #logPanel,body.light #mudLog,body.light #pzLog{background:#f6f8fb;}
+body.light .slot,body.light .inv-item,body.light .bench,body.light .codex-card,body.light .shop-row{background:#f8fafd;}
+body.light .hint,body.light .tier-desc,body.light .mtrait .tdesc,body.light .maphint{color:#4d5868;}
+body.light #mName{color:#1b2330!important;}
+body.light .hpstats .chip.zero{opacity:.78;}
+body.light .hpstats .chip.zero b{color:#3b4554!important;}
+body.light .lv-grid button.locked{opacity:.5;}
+body.light [style*="background:rgba(0,0,0,.3)"]{background:#e9edf3!important;border-color:#d3dae3!important;}
+body.light [style*="color:#ffd54f"]{color:#8a5a00!important;}
+body.light [style*="color:#ff8a80"]{color:#b71c1c!important;}
+body.light [style*="color:#ffcc80"]{color:#8a5a00!important;}
+body.light [style*="color:#ffb74d"]{color:#9a4f00!important;}
+body.light [style*="color:#ffb300"]{color:#8a5a00!important;}
+body.light [style*="color:#ff7043"]{color:#b23c17!important;}
+body.light [style*="color:#ffee58"]{color:#806000!important;}
+body.light [style*="color:#fff176"]{color:#756100!important;}
+body.light [style*="color:#ffab91"]{color:#b71c1c!important;}
+body.light [style*="color:#81c784"]{color:#2e7d32!important;}
+body.light [style*="color:#a5d6a7"]{color:#2e7d32!important;}
+body.light [style*="color:#9ccc65"]{color:#3f7d1f!important;}
+body.light [style*="color:#c5e1a5"]{color:#3f7d1f!important;}
+body.light [style*="color:#cddc39"]{color:#5a7a12!important;}
+body.light [style*="color:#dce775"]{color:#5a7a12!important;}
+body.light [style*="color:#4caf50"]{color:#2e7d32!important;}
+body.light [style*="color:#4fc3f7"]{color:#1565c0!important;}
+body.light [style*="color:#90caf9"]{color:#1565c0!important;}
+body.light [style*="color:#82b1ff"]{color:#1565c0!important;}
+body.light [style*="color:#64b5f6"]{color:#1565c0!important;}
+body.light [style*="color:#b0bec5"]{color:#4b5564!important;}
+body.light [style*="color:#9fb3c8"]{color:#3a5f8f!important;}
+body.light [style*="color:#78909c"]{color:#4b5564!important;}
+body.light [style*="color:#9e9e9e"]{color:#5c6675!important;}
+body.light [style*="color:#ce93d8"]{color:#6a1b9a!important;}
+body.light [style*="color:#b39ddb"]{color:#6a1b9a!important;}
+body.light [style*="color:#d4b3e8"]{color:#6a1b9a!important;}
+body.light [style*="color:#ba68c8"]{color:#6a1b9a!important;}
+body.light [style*="color:#f48fb1"]{color:#a3326a!important;}
+body.light [style*="color:#ef9a9a"]{color:#b71c1c!important;}
+body.light [style*="color:#ef5350"]{color:#c62828!important;}
+body.light [style*="color:#f44336"]{color:#c62828!important;}
+body.light [style*="color:#e53935"]{color:#b71c1c!important;}
+body.light [style*="color:#c8c8c8"]{color:#626b79!important;}
+body.light [style*="color:#80cbc4"]{color:#00796b!important;}
+body.light [style*="color:#8d7a80"]{color:#687280!important;}
+body.light [style*="color:#eceff1"]{color:#3b4554!important;}
+body.light [style*="color:#c9c9d4"]{color:#2b3545!important;}
+body.light [style*="color:#fff"]{color:#2b3545!important;}
+body.light [style*="color: rgb(255, 255, 255)"]{color:#2b3545!important;}
+body.light [style*="color: rgb(255, 138, 128)"]{color:#b71c1c!important;}
+body.light [style*="color: rgb(255, 213, 79)"]{color:#8a5a00!important;}
+body.light [style*="color: rgb(144, 202, 249)"]{color:#1565c0!important;}
+body.light [style*="color: rgb(130, 177, 255)"]{color:#1565c0!important;}
+body.light [style*="color: rgb(255, 183, 77)"]{color:#9a4f00!important;}
+body.light [style*="color: rgb(197, 225, 165)"]{color:#3f7d1f!important;}
 </style>
 </head>
 <body>
@@ -525,6 +793,7 @@ body.mapzoom .maphint{display:inline;}
       <button onclick="shopToggle()" style="border-color:#1a4a5c;color:#4fc3f7;">🏪 商店</button>
       <button onclick="codexToggle()" style="border-color:#2a4a6a;color:#90caf9;">📖 套装图鉴</button>
       <button onclick="houseToggle()" style="border-color:#7a5c1a;color:#ffd54f;">🏠 住房</button>
+      <button id="btnTheme" onclick="toggleTheme()" style="border-color:#5c4a1a;color:#ffd54f;">☀ 白底</button>
       <button onclick="saveGame(1)">💾 保存</button>
       <button onclick="exportSave()">📤 导出</button>
       <button onclick="importSave()">📥 导入</button>
@@ -13066,6 +13335,24 @@ document.addEventListener("change", ev=>{
     setTimeout(()=>{ if(tutActive() && tutStepSafe() === at) tutStep(1); }, 320);
   }
 }, true);
+
+/* ===== 背景切换：白底 / 暗底（选择保存在本地，不占用游戏存档） ===== */
+const THEME_KEY = "horror_idle_theme_v1";
+function applyTheme(theme){
+  const light = theme === "light";
+  document.body.classList.toggle("light", light);
+  const b = document.getElementById("btnTheme");
+  if(b) b.textContent = light ? "🌙 暗底" : "☀ 白底";
+  try{ localStorage.setItem(THEME_KEY, light ? "light" : "dark"); }catch(e){}
+}
+function toggleTheme(){
+  applyTheme(document.body.classList.contains("light") ? "dark" : "light");
+}
+(function(){
+  let t = "dark";
+  try{ t = localStorage.getItem(THEME_KEY) || "dark"; }catch(e){}
+  applyTheme(t);
+})();
 
 /* ================= 启动 ================= */
 function init(){
